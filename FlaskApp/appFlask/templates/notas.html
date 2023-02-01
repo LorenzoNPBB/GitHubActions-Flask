@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}InformacionAlumno {% endblock %}
+
+
+{% block content %}
+<h1 class="text-center mt-5 mb-5 text-primary">Notas Alumnos IES Madrid ASIR</h1>
+
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <form action="/userNotas" method="POST"> <!-- PONEMOS /USER QUE ES DONDE VAN LOS DATOS QUE METAMOS-->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>CodigoAlumno</label>
+                            <input type="text" class="form-control mb-3" name="CodigoAlumno">
+                        </div>
+                        <div class="col">
+                            <label>Seguridad</label>
+                            <input type="text" class="form-control mb-3" name="Seguridad">
+                        </div>
+                        <div class="col">
+                            <label>Implantacion</label>
+                            <input type="text" class="form-control mb-3" name="Implantacion">
+                        </div>
+                        <div class="col">
+                            <label>Redes</label>
+                            <input type="text" class="form-control mb-3" name="Redes">
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary mb-3 mt-4" type="submit">Guardar</button>
+                        </div>
+                    </div>
+
+                </form>
+
+
+                <!-- TABLA  -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">CodigoAlumno</th>
+                            <th scope="col">Seguridad</th>
+                            <th scope="col">Implantacion</th>
+                            <th scope="col">Redes</th>
+                            <th scope="col">Editar</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                
+                <tbody>
+                    {% for d in data %} <!-- ESTE BUCLE SIRVE PARA ENVIAR LOS DATOS . POR CADA UNO DE LOS ELEMENTOS DE DATA LO VAMOS A IR IMPRIMIENDO DENTRO DE DATA-->
+                        <tr>
+                            <td>{{d.CodigoAlumno}}</td>  <!-- LAS DOBLES LLAVES ES PARA ACCEDER A LOS DATOS. CON EL '.' ACCEDEMOS AL DATO EN CONCRETO -->
+                            <td>{{d.Seguridad}}</td>
+                            <td>{{d.Implantacion}}</td>
+                            <td>{{d.Redes}}</td>
+                            <td><button class="btn btn-primary btn-sm" id="btn-edit{{d.CodigoAlumno}}" data-bs-toggle="modal" data-bs-target="#modal{{d.CodigoAlumno}}">Edit</button></td>
+                            <td><a href="{{url_for('routes.deleteNotas',CodigoAlumno=d.CodigoAlumno)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                        </tr>
+                <!-- PARA CERRAR EL BUCLE -->
+
+                        <!-- modal -->
+
+                        <div class="modal fade" id="modal{{d.CodigoAlumno}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.Seguridad}}</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/editNotas/{{d.CodigoAlumno}}" method="post">
+                                        <label>CodigoAlumno</label>
+                                        <input type="text" class="form-control mb-3" name="CodigoAlumno" value="{{d.CodigoAlumno}}">
+                                        <label>Seguridad</label>
+                                        <input type="text" class="form-control mb-3" name="Seguridad" value="{{d.Seguridad}}">
+                                        <label>Implantacion</label>
+                                        <input type="text" class="form-control mb-3" name="Implantacion" value="{{d.Implantacion}}">
+                                        <label>Redes</label>
+                                        <input type="text" class="form-control mb-3" name="Redes" value="{{d.Redes}}">
+                                  
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            </div>
+        </div>
+    </div>
+    <td><a href="{{url_for('routes.home')}}">Informacion Alumno</a></td>
+{% endblock %}
+
+
+
