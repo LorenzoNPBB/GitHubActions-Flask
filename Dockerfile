@@ -11,7 +11,7 @@ COPY . .
 
 EXPOSE 4000
 
-WORKDIR /appFlask/FlaskApp
+WORKDIR /FlaskApp/appFlask
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
